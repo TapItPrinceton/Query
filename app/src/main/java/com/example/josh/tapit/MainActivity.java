@@ -26,9 +26,9 @@ public class MainActivity extends Activity {
         // setup parse
         Parse.initialize(this, "mHMTVYaNUnLIcYWO7OyCrPy0Xi9DQcQvS28GKDkH", "PWy5jdBSWXV9VuyBKW7lmvQcJsPecnOJezcMbwfT");
 
-        ParseObject testObject = new ParseObject("TestObject");
-        testObject.put("foo", "bar");
-        testObject.saveInBackground();
+        final ParseObject state = new ParseObject("State");
+        state.put("current", 0);
+        state.saveInBackground();
 
         mProgressBar = (ProgressBar) findViewById(R.id.progressBar); // make the progress bar
         mProgressBar.setVisibility(View.VISIBLE); // not sure if necessary, but makes the bar visible
@@ -42,6 +42,8 @@ public class MainActivity extends Activity {
             public void onClick(View view) {
                 current++; // increment count
                 mProgressBar.setProgress(current);
+                state.increment("current");
+                state.saveInBackground();
 
             }
         };
