@@ -9,17 +9,21 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
+import com.parse.GetCallback;
 import com.parse.Parse;
+import com.parse.ParseException;
 import com.parse.ParseObject;
+import com.parse.ParseQuery;
 
 
 public class MainActivity extends Activity {
 
     protected ProgressBar mProgressBar;
-    private int current;
     private static final int MAX = 100; // change when we know class size, or keep as a percentage
     private boolean confused = false; // true = confused, false not confused
+    private static final String CLASS_NAME = "Econ";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,10 +32,6 @@ public class MainActivity extends Activity {
 
         // setup parse
         Parse.initialize(this, "mHMTVYaNUnLIcYWO7OyCrPy0Xi9DQcQvS28GKDkH", "PWy5jdBSWXV9VuyBKW7lmvQcJsPecnOJezcMbwfT");
-
-        final ParseObject state = new ParseObject("State");
-        state.put("current", 0);
-        state.saveInBackground();
 
         mProgressBar = (ProgressBar) findViewById(R.id.progressBar); // make the progress bar
         mProgressBar.setVisibility(View.VISIBLE); // not sure if necessary, but makes the bar visible
@@ -42,38 +42,40 @@ public class MainActivity extends Activity {
 
         final Button updateButton = (Button) findViewById(R.id.button); // make the button
 
-        /*
-        ParseQuery<ParseObject> query = ParseQuery.getQuery("State");
-        query.getInBackground("mHMTVYaNUnLIcYWO7OyCrPy0Xi9DQcQvS28GKDkH", new GetCallback<query>() {
-            public void done(ParseObject object, ParseException e) {
-                if (e == null) {
-                    object.increment("current");
-                    object.saveInBackground();
-                } else {
-                    // something went wrong
-                }
-            }
-        });*/
+        final TextView status = (TextView) findViewById(R.id.textView);
+        updateButton.setText("Not Anymore.");
+        status.setText("I get it.");
 
         View.OnClickListener listener = new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                current++; // increment count
-                mProgressBar.setProgress(current);
-                state.increment("current");
-                state.saveInBackground();
+                ParseQuery<ParseObject> query = ParseQuery.getQuery("State");
+                query.whereEqualTo("class", CLASS_NAME);
+                query.getFirstInBackground(new GetCallback<ParseObject>() {
+                    @Override
+                    public void done(ParseObject object, ParseException e) {
+                        if (object == null) {
+                            //failed
+                        } else {
+                            // retrieve success
+                            if (confused) {
+                                object.increment("current");
+                                relativeLayout.setBackgroundColor(Color.RED);
+                                status.setText("I'm Confused!");
 
-                confused = !confused; // Switch confused state
+                            }
+                            else {
+                                object.increment("current", -1);
+                                relativeLayout.setBackgroundColor(Color.GREEN);
+                                status.setText("I Get it.");
+                            }
 
-                if(confused) {
-                    relativeLayout.setBackgroundColor(Color.RED);
-                    updateButton.setText("I Get It.");
-                }
-                else {
-                    relativeLayout.setBackgroundColor(Color.GREEN);
-                    updateButton.setText("I'm Confused!");
-                }
-
+                            confused = !confused;
+                            object.saveInBackground();
+                            mProgressBar.setProgress(object.getInt("current"));
+                        }
+                    }
+                });
 
             }
         };
@@ -101,4 +103,3 @@ public class MainActivity extends Activity {
         return super.onOptionsItemSelected(item);
     }
 }
-//JON'S COMMENT
