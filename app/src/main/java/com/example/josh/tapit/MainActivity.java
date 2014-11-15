@@ -1,6 +1,7 @@
 package com.example.josh.tapit;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.Menu;
@@ -24,11 +25,16 @@ public class MainActivity extends Activity {
     private static final int MAX = 100; // change when we know class size, or keep as a percentage
     private boolean confused = false; // true = confused, false not confused
     private static final String CLASS_NAME = "Econ";
+    private static final int GREEN = Color.parseColor("#228822");
+    private static final int RED = Color.parseColor("#FF4500");
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        Intent intent = new Intent(this, LoginActivity.class);
+        startActivity(intent);
 
         // setup parse
         Parse.initialize(this, "mHMTVYaNUnLIcYWO7OyCrPy0Xi9DQcQvS28GKDkH", "PWy5jdBSWXV9VuyBKW7lmvQcJsPecnOJezcMbwfT");
@@ -43,8 +49,8 @@ public class MainActivity extends Activity {
         final Button updateButton = (Button) findViewById(R.id.button); // make the button
 
         final TextView status = (TextView) findViewById(R.id.textView);
-        updateButton.setText("Not Anymore.");
-        status.setText("I get it.");
+        updateButton.setText(getString(R.string.button_text));
+        status.setText(getString(R.string.status_positive));
 
         View.OnClickListener listener = new View.OnClickListener() {
             @Override
@@ -60,14 +66,14 @@ public class MainActivity extends Activity {
                             // retrieve success
                             if (confused) {
                                 object.increment("current");
-                                relativeLayout.setBackgroundColor(Color.RED);
-                                status.setText("I'm Confused!");
+                                relativeLayout.setBackgroundColor(RED);
+                                status.setText(getString(R.string.status_negative));
 
                             }
                             else {
                                 object.increment("current", -1);
-                                relativeLayout.setBackgroundColor(Color.GREEN);
-                                status.setText("I Get it.");
+                                relativeLayout.setBackgroundColor(GREEN);
+                                status.setText(getString(R.string.status_positive));
                             }
 
                             confused = !confused;

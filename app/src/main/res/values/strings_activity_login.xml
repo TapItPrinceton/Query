@@ -1,0 +1,15 @@
+<resources>
+    <string name="title_activity_login">Enter Your Class</string>
+
+    <!-- Strings related to login -->
+    <string name="prompt_email">Email</string>
+    <string name="prompt_class_code">Class Code</string>
+    <string name="prompt_password">Password</string>
+    <string name="action_sign_in">Join Room</string>
+    <string name="action_sign_in_short">Sign in</string>
+
+    <string name="error_invalid_class_code">This class code is invalid</string>
+    <string name="error_invalid_password">This password is too short</string>
+    <string name="error_incorrect_password">The username or password is incorrect</string>
+    <string name="error_field_required">This field is required</string>
+</resources>
