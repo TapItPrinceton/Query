@@ -1,12 +1,14 @@
 package com.example.josh.tapit;
 
 import android.app.Activity;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 
 import com.parse.Parse;
 import com.parse.ParseObject;
@@ -17,6 +19,7 @@ public class MainActivity extends Activity {
     protected ProgressBar mProgressBar;
     private int current;
     private static final int MAX = 100; // change when we know class size, or keep as a percentage
+    private boolean confused = false; // true = confused, false not confused
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,6 +36,9 @@ public class MainActivity extends Activity {
         mProgressBar = (ProgressBar) findViewById(R.id.progressBar); // make the progress bar
         mProgressBar.setVisibility(View.VISIBLE); // not sure if necessary, but makes the bar visible
         mProgressBar.setMax(MAX);
+
+        // New relative layout to be used to change background color
+        final RelativeLayout relativeLayout = (RelativeLayout) findViewById(R.id.relativeLayout);
 
         final Button updateButton = (Button) findViewById(R.id.button); // make the button
 
@@ -56,6 +62,18 @@ public class MainActivity extends Activity {
                 mProgressBar.setProgress(current);
                 state.increment("current");
                 state.saveInBackground();
+
+                confused = !confused; // Switch confused state
+
+                if(confused) {
+                    relativeLayout.setBackgroundColor(Color.RED);
+                    updateButton.setText("I Get It.");
+                }
+                else {
+                    relativeLayout.setBackgroundColor(Color.GREEN);
+                    updateButton.setText("I'm Confused!");
+                }
+
 
             }
         };
