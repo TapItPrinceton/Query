@@ -7,8 +7,10 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.parse.Parse;
 import com.parse.ParseObject;
@@ -20,6 +22,7 @@ public class MainActivity extends Activity {
     private int current;
     private static final int MAX = 100; // change when we know class size, or keep as a percentage
     private boolean confused = false; // true = confused, false not confused
+    private TextView myText = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,6 +44,13 @@ public class MainActivity extends Activity {
         final RelativeLayout relativeLayout = (RelativeLayout) findViewById(R.id.relativeLayout);
 
         final Button updateButton = (Button) findViewById(R.id.button); // make the button
+
+        //This is in the onCreate method
+        LinearLayout lView = new LinearLayout(this);
+
+        myText = (TextView) findViewById(R.id.textView2);
+        myText.setText("Current status: I get it!");
+
 
         /*
         ParseQuery<ParseObject> query = ParseQuery.getQuery("State");
@@ -66,12 +76,15 @@ public class MainActivity extends Activity {
                 confused = !confused; // Switch confused state
 
                 if(confused) {
-                    relativeLayout.setBackgroundColor(Color.RED);
+                    relativeLayout.setBackgroundColor(Color.WHITE);
                     updateButton.setText("I Get It.");
+                    myText.setText("Current status: I'm confused!");
                 }
                 else {
-                    relativeLayout.setBackgroundColor(Color.GREEN);
+                    relativeLayout.setBackgroundColor(Color.GRAY);
                     updateButton.setText("I'm Confused!");
+                    myText.setText("Current status: I get it!");
+
                 }
 
 
