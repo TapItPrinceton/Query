@@ -42,6 +42,8 @@ public class MainActivity extends Activity {
 
         final Button updateButton = (Button) findViewById(R.id.button); // make the button
 
+        // parse branch comment
+        
         /*
         ParseQuery<ParseObject> query = ParseQuery.getQuery("State");
         query.getInBackground("mHMTVYaNUnLIcYWO7OyCrPy0Xi9DQcQvS28GKDkH", new GetCallback<query>() {
