@@ -8,6 +8,9 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ProgressBar;
 
+import com.parse.Parse;
+import com.parse.ParseObject;
+
 
 public class MainActivity extends Activity {
 
@@ -19,6 +22,13 @@ public class MainActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        // setup parse
+        Parse.initialize(this, "mHMTVYaNUnLIcYWO7OyCrPy0Xi9DQcQvS28GKDkH", "PWy5jdBSWXV9VuyBKW7lmvQcJsPecnOJezcMbwfT");
+
+        ParseObject testObject = new ParseObject("TestObject");
+        testObject.put("foo", "bar");
+        testObject.saveInBackground();
 
         mProgressBar = (ProgressBar) findViewById(R.id.progressBar); // make the progress bar
         mProgressBar.setVisibility(View.VISIBLE); // not sure if necessary, but makes the bar visible
