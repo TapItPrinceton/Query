@@ -45,7 +45,7 @@ public class MainActivity extends Activity {
     private static final int GREEN = Color.parseColor("#228822");
     private static final int RED = Color.parseColor("#FF4500");
     private static Date tempDate;
-    private static final int Q_DURATION = 1;
+    private static final int Q_DURATION = 30;
 
     //======================
     private int mInterval = 500; // 0.5 seconds
@@ -234,7 +234,8 @@ public class MainActivity extends Activity {
                             for (int i = 0; i < scoreList.size(); i++) {
                                 Calendar cal = Calendar.getInstance();
                                 cal.setTime(scoreList.get(i).getCreatedAt());
-                                cal.add(Calendar.MINUTE, 1 + Q_DURATION);
+                                cal.add(Calendar.SECOND, Q_DURATION);
+                                cal.add(Calendar.MINUTE, 1);
                                 cal.add(Calendar.SECOND, -10);
                                 Date date = cal.getTime();
                                 Date currentDate = Calendar.getInstance().getTime();
