@@ -86,12 +86,13 @@ public class MainActivity extends Activity implements GestureDetector.OnGestureL
 
         // Make the button and sets String inside
         updateButton = (Button) findViewById(R.id.button);
-        updateButton.setText(getString(R.string.button_text));
+        //updateButton.setText(getString(R.string.button_text));
 
         // Sets the initial status to positive
         //status = (TextView) findViewById(R.id.textView);
         //status.setText(getString(R.string.status_positive));
         updateButton.setText(getString(R.string.status_positive));
+        updateButton.setTextColor(Color.parseColor("#ffffff"));
 
         // Setup queue question view
         queueView = (TextView) findViewById(R.id.currentQuestion);
@@ -165,18 +166,18 @@ public class MainActivity extends Activity implements GestureDetector.OnGestureL
                         } else {
                             // retrieve success
                             if (confused) {
-                                object.increment("current");
+                                object.increment("current", -1);
                                 //relativeLayout.setBackgroundColor(RED);
                                 updateButton.setText(getString(R.string.status_negative));
-                                updateButton.setBackgroundColor(RED);
+                                //updateButton.setBackgroundColor(RED);
                                 updateButton.setTextColor(Color.parseColor("#FFFFFF"));
 
                             } else {
-                                object.increment("current", -1);
+                                object.increment("current");
                                 //relativeLayout.setBackgroundColor(GREEN);
                                 updateButton.setText(getString(R.string.status_positive));
-                                updateButton.setBackgroundColor(GREEN);
-                                updateButton.setTextColor(Color.parseColor("#999999"));
+                                //updateButton.setBackgroundColor(GREEN);
+                                updateButton.setTextColor(Color.parseColor("#FFFFFF"));
                             }
 
                             confused = !confused;
@@ -343,9 +344,11 @@ public class MainActivity extends Activity implements GestureDetector.OnGestureL
                            float velocityY) {
         float sensitvity = 1;
         if (!Question_queue.isEmpty()) {
-            if ((e1.getX() - e2.getX()) > sensitvity && e1.getY() > queueView.getTop() - 150 && e2.getY() > queueView.getTop() - 150) {
+            /*if ((e1.getX() - e2.getX()) > sensitvity && e1.getY() > queueView.getTop() - 150 && e2.getY() > queueView.getTop() - 150) {
                 //left fling
                 if(e1.getY()<queueView.getTop()+queueView.getHeight()+150 && e2.getY()<queueView.getTop()+queueView.getHeight()+150) {
+                    */
+            if (Math.abs(e1.getX() - e2.getX()) > 10 && velocityX > 100) {
                     ParseQuery<ParseObject> query = ParseQuery.getQuery(class_name + "Questions");
                     query.whereEqualTo("objectId", Question_queue.get(0)[1]);
                     query.getFirstInBackground(new GetCallback<ParseObject>() {
@@ -360,12 +363,17 @@ public class MainActivity extends Activity implements GestureDetector.OnGestureL
                             }
                         }
                     });
-                    queueView.setText(Question_queue.get(0)[0]);
                     Question_queue.remove(0);
+                    if (!Question_queue.isEmpty())
+                        queueView.setText(Question_queue.get(0)[0]);
+                    else
+                        queueView.setText("No more new questions!");
                 }
-            } else if ((e2.getX() - e1.getX()) > sensitvity && e1.getY() > queueView.getTop() - 150 && e2.getY() > queueView.getTop() - 150) {
+            } /*else if ((e2.getX() - e1.getX()) > sensitvity && e1.getY() > queueView.getTop() - 150 && e2.getY() > queueView.getTop() - 150) {
                 //right fling
                 if(e1.getY()<queueView.getTop()+queueView.getHeight() +150 && e2.getY()<queueView.getTop()+queueView.getHeight()+150) {
+                    */
+            else if (Math.abs(e2.getX() - e1.getX()) > 10) {
                     ParseQuery<ParseObject> query = ParseQuery.getQuery(class_name + "Questions");
                     query.whereEqualTo("objectId", Question_queue.get(0)[1]);
                     query.getFirstInBackground(new GetCallback<ParseObject>() {
@@ -380,11 +388,13 @@ public class MainActivity extends Activity implements GestureDetector.OnGestureL
                             }
                         }
                     });
-                    queueView.setText(Question_queue.get(0)[0]);
                     Question_queue.remove(0);
+                    if (!Question_queue.isEmpty())
+                        queueView.setText(Question_queue.get(0)[0]);
+                    else
+                        queueView.setText("No more new questions!");
                 }
-            }
-        }
+
         else {
             queueView.setText("No more new questions!");
         }

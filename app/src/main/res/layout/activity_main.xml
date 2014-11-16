@@ -16,6 +16,15 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
 
+    <ListView
+        android:layout_width="wrap_content"
+        android:layout_height="fill_parent"
+        android:id="@+id/listView"
+        android:layout_below="@+id/progressBar"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:background="#fc636866" />
+
     <Button
         android:layout_width="fill_parent"
         android:layout_height="110dp"
@@ -25,12 +34,13 @@
         android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:background="#ff4dff38"
-        android:textColor="#ff999999" />
+        android:textSize="40dp"
+        android:background="#fff58025"
+        android:textColor="#ffffffff" />
 
     <TextView
         android:layout_width="match_parent"
-        android:layout_height="110dp"
+        android:layout_height="150dp"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="Large Text"
         android:id="@+id/currentQuestion"
@@ -38,15 +48,8 @@
         android:layout_above="@+id/questionText"
         android:layout_centerHorizontal="true"
         android:layout_centerInParent="true"
-        android:background="#ff000000"/>
-
-    <ListView
-        android:layout_width="wrap_content"
-        android:layout_height="260dp"
-        android:id="@+id/listView"
-        android:layout_below="@+id/progressBar"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:textSize="40dp"
+        android:background="#fc636866"/>
 
     <EditText
         android:layout_width="match_parent"
@@ -60,7 +63,8 @@
         android:gravity="center"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
-        android:background="#ffFFFFFF" />
+        android:textSize="20dp"
+        android:background="#fc636866" />
 
 
 
