@@ -2,63 +2,66 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
-    android:paddingBottom="@dimen/activity_vertical_margin"
     tools:context=".MainActivity"
     android:id="@+id/relativeLayout"
-    android:background="#ff228822"
+    android:background="#ff999999"
     android:clickable="true">
 
     <ProgressBar
         style="@android:style/Widget.ProgressBar.Horizontal"
-        android:layout_width="400px"
-        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_height="70px"
         android:id="@+id/progressBar"
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
 
     <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="fill_parent"
+        android:layout_height="110dp"
         android:text="New Button"
         android:id="@+id/button"
-        android:layout_alignParentTop="true"
         android:layout_toEndOf="@+id/progressBar"
-        android:layout_toRightOf="@+id/progressBar" />
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:background="#ff4dff38"
+        android:textColor="#ff999999" />
 
     <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_height="110dp"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="Large Text"
-        android:id="@+id/textView"
-        android:layout_centerVertical="true"
+        android:id="@+id/currentQuestion"
+        android:gravity="center"
+        android:layout_above="@+id/questionText"
         android:layout_centerHorizontal="true"
-        android:layout_centerInParent="true" />
+        android:layout_centerInParent="true"
+        android:background="#ff000000"/>
 
     <ListView
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="260dp"
         android:id="@+id/listView"
         android:layout_below="@+id/progressBar"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
 
     <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_height="110dp"
         android:id="@+id/questionText"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_alignRight="@+id/button"
-        android:layout_alignEnd="@+id/button"
         android:hint="@string/question_text_field"
         android:inputType="text"
         android:maxLines="1"
-        android:imeOptions="actionSend"/>
+        android:imeOptions="actionSend"
+        android:layout_above="@+id/button"
+        android:gravity="center"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:background="#ffFFFFFF" />
+
+
 
 </RelativeLayout>
