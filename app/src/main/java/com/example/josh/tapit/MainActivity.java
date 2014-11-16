@@ -20,6 +20,7 @@ import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.parse.FindCallback;
 import com.parse.GetCallback;
@@ -62,7 +63,9 @@ public class MainActivity extends Activity implements GestureDetector.OnGestureL
         setContentView(R.layout.activity_main);
 
         Calendar cal = Calendar.getInstance();
+        cal.add(Calendar.YEAR, -1);
         lastDate = cal.getTime();
+
 
         Question_queue = new ArrayList<String[]>();
 
@@ -117,10 +120,9 @@ public class MainActivity extends Activity implements GestureDetector.OnGestureL
 
         // Swipey thing
         mDetector = new GestureDetector(this, this);
-        relativeLayout.setOnTouchListener(new View.OnTouchListener() {
+        listView.setOnTouchListener(new View.OnTouchListener() {
             public boolean onTouch(View v, MotionEvent me) {
                 mDetector.onTouchEvent(me);
-
                 return mDetector.onTouchEvent(me);
             }
         });
@@ -323,7 +325,7 @@ public class MainActivity extends Activity implements GestureDetector.OnGestureL
 
     public void postTopQuestions(ArrayList<String> questions) {
         ArrayAdapter<String> adapter = new ArrayAdapter<String>
-                        (this, android.R.layout.simple_list_item_1, questions);
+                (this, android.R.layout.simple_list_item_1, questions);
         listView.setAdapter(adapter);
     }
 
@@ -344,11 +346,10 @@ public class MainActivity extends Activity implements GestureDetector.OnGestureL
                            float velocityY) {
         float sensitvity = 1;
         if (!Question_queue.isEmpty()) {
-            /*if ((e1.getX() - e2.getX()) > sensitvity && e1.getY() > queueView.getTop() - 150 && e2.getY() > queueView.getTop() - 150) {
+            if ((e1.getX() - e2.getX()) > sensitvity && e1.getY() > queueView.getTop() - 150 && e2.getY() > queueView.getTop() - 150) {
                 //left fling
-                if(e1.getY()<queueView.getTop()+queueView.getHeight()+150 && e2.getY()<queueView.getTop()+queueView.getHeight()+150) {
-                    */
-            if (Math.abs(e1.getX() - e2.getX()) > 10 && velocityX > 100) {
+                if (e1.getY() < queueView.getTop() + queueView.getHeight() + 150 && e2.getY() < queueView.getTop() + queueView.getHeight() + 150) {
+
                     ParseQuery<ParseObject> query = ParseQuery.getQuery(class_name + "Questions");
                     query.whereEqualTo("objectId", Question_queue.get(0)[1]);
                     query.getFirstInBackground(new GetCallback<ParseObject>() {
@@ -369,11 +370,10 @@ public class MainActivity extends Activity implements GestureDetector.OnGestureL
                     else
                         queueView.setText("No more new questions!");
                 }
-            } /*else if ((e2.getX() - e1.getX()) > sensitvity && e1.getY() > queueView.getTop() - 150 && e2.getY() > queueView.getTop() - 150) {
+            } else if ((e2.getX() - e1.getX()) > sensitvity && e1.getY() > queueView.getTop() - 150 && e2.getY() > queueView.getTop() - 150) {
                 //right fling
-                if(e1.getY()<queueView.getTop()+queueView.getHeight() +150 && e2.getY()<queueView.getTop()+queueView.getHeight()+150) {
-                    */
-            else if (Math.abs(e2.getX() - e1.getX()) > 10) {
+                if (e1.getY() < queueView.getTop() + queueView.getHeight() + 150 && e2.getY() < queueView.getTop() + queueView.getHeight() + 150) {
+
                     ParseQuery<ParseObject> query = ParseQuery.getQuery(class_name + "Questions");
                     query.whereEqualTo("objectId", Question_queue.get(0)[1]);
                     query.getFirstInBackground(new GetCallback<ParseObject>() {
@@ -394,6 +394,8 @@ public class MainActivity extends Activity implements GestureDetector.OnGestureL
                     else
                         queueView.setText("No more new questions!");
                 }
+            }
+        }
 
         else {
             queueView.setText("No more new questions!");
@@ -419,6 +421,7 @@ public class MainActivity extends Activity implements GestureDetector.OnGestureL
 
     @Override
     public boolean onSingleTapUp(MotionEvent e) {
+        Toast.makeText(getApplicationContext(), "tap Gesture!!!!!!!!!", Toast.LENGTH_SHORT).show();
         return true;
     }
 
