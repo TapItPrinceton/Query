@@ -6,6 +6,7 @@ import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.LoaderManager.LoaderCallbacks;
 import android.content.CursorLoader;
+import android.content.Intent;
 import android.content.Loader;
 import android.database.Cursor;
 import android.net.Uri;
@@ -48,6 +49,7 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor>{
     private EditText mPasswordView;
     private View mProgressView;
     private View mLoginFormView;
+    private static String correctCode;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -266,6 +268,7 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor>{
                 String[] pieces = credential.split(":");
                 if (pieces[0].equals(mEmail)) {
                     // Account exists, return true if the password matches.
+                    correctCode = pieces[0];
                     return pieces[1].equals(mPassword);
                 }
             }
@@ -280,6 +283,9 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor>{
             showProgress(false);
 
             if (success) {
+                Intent output = new Intent();
+                output.putExtra("class", correctCode);
+                setResult(RESULT_OK, output);
                 finish();
             } else {
                 mPasswordView.setError(getString(R.string.error_incorrect_password));

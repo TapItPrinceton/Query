@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -22,19 +23,28 @@ import com.parse.ParseQuery;
 public class MainActivity extends Activity {
 
     protected ProgressBar mProgressBar;
+    protected TextView status;
+    protected Button updateButton;
+    private RelativeLayout relativeLayout;
     private static final int MAX = 100; // change when we know class size, or keep as a percentage
     private boolean confused = false; // true = confused, false not confused
-    private static final String CLASS_NAME = "Econ";
+    private String class_name = "";
     private static final int GREEN = Color.parseColor("#228822");
     private static final int RED = Color.parseColor("#FF4500");
+
+    //======================
+    private int mInterval = 1000; // 1 second
+    private Handler mHandler;
+    //======================
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        Intent intent = new Intent(this, LoginActivity.class);
-        startActivity(intent);
+
+        Intent resultIntent = new Intent(this, LoginActivity.class);
+        startActivityForResult(resultIntent, 1);
 
         // setup parse
         Parse.initialize(this, "mHMTVYaNUnLIcYWO7OyCrPy0Xi9DQcQvS28GKDkH", "PWy5jdBSWXV9VuyBKW7lmvQcJsPecnOJezcMbwfT");
@@ -44,19 +54,38 @@ public class MainActivity extends Activity {
         mProgressBar.setMax(MAX);
 
         // New relative layout to be used to change background color
-        final RelativeLayout relativeLayout = (RelativeLayout) findViewById(R.id.relativeLayout);
+        relativeLayout = (RelativeLayout) findViewById(R.id.relativeLayout);
 
-        final Button updateButton = (Button) findViewById(R.id.button); // make the button
+        updateButton = (Button) findViewById(R.id.button); // make the button
 
-        final TextView status = (TextView) findViewById(R.id.textView);
+        status = (TextView) findViewById(R.id.textView);
         updateButton.setText(getString(R.string.button_text));
         status.setText(getString(R.string.status_positive));
 
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        switch(requestCode) {
+            case (1) : {
+                if (resultCode == RESULT_OK) {
+                    class_name = data.getStringExtra("class");
+                    //class_name = "eco101";
+                    getConstantData();
+                    buttonClicked();
+                }
+                break;
+            }
+        }
+    }
+
+    protected void buttonClicked() {
         View.OnClickListener listener = new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 ParseQuery<ParseObject> query = ParseQuery.getQuery("State");
-                query.whereEqualTo("class", CLASS_NAME);
+                query.whereEqualTo("class", class_name);
                 query.getFirstInBackground(new GetCallback<ParseObject>() {
                     @Override
                     public void done(ParseObject object, ParseException e) {
@@ -86,9 +115,34 @@ public class MainActivity extends Activity {
             }
         };
         updateButton.setOnClickListener(listener);
-
     }
 
+    public void getConstantData() {
+
+        mHandler = new Handler();
+
+        final Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+
+            public void run() {
+
+                ParseQuery<ParseObject> query = ParseQuery.getQuery("State");
+                query.whereEqualTo("class", class_name);
+                query.getFirstInBackground(new GetCallback<ParseObject>() {
+                    @Override
+                    public void done(ParseObject object, ParseException e) {
+                        if (object == null) {
+                            //failed
+                        } else {
+                            mProgressBar.setProgress(object.getInt("current"));
+                        }
+                    }
+                });
+                handler.postDelayed(this, mInterval);
+            }
+        }, mInterval);
+        //======================*/
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -108,4 +162,5 @@ public class MainActivity extends Activity {
         }
         return super.onOptionsItemSelected(item);
     }
+
 }
