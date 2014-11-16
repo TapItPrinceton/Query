@@ -42,7 +42,7 @@ public class MainActivity extends Activity implements GestureDetector.OnGestureL
     protected ListView listView; // listview to hold top questions
     protected TextView queueView;
     private RelativeLayout relativeLayout;
-    private static final int MAX = 100; // change when we know class size
+    private static final int MAX = 20; // change when we know class size
     private boolean confused = true; // true = confused, false = not confused
     private String class_name = "";
     private static final int GREEN = Color.parseColor("#4dff38");
