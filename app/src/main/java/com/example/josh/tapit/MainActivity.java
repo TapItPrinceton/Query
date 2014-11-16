@@ -20,7 +20,6 @@ import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.parse.FindCallback;
 import com.parse.GetCallback;
@@ -421,7 +420,6 @@ public class MainActivity extends Activity implements GestureDetector.OnGestureL
 
     @Override
     public boolean onSingleTapUp(MotionEvent e) {
-        Toast.makeText(getApplicationContext(), "tap Gesture!!!!!!!!!", Toast.LENGTH_SHORT).show();
         return true;
     }
 
