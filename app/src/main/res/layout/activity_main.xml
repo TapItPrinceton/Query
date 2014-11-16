@@ -13,19 +13,21 @@
 
     <ProgressBar
         style="@android:style/Widget.ProgressBar.Horizontal"
-        android:layout_width="match_parent"
+        android:layout_width="400px"
         android:layout_height="wrap_content"
         android:id="@+id/progressBar"
         android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true" />
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="New Button"
         android:id="@+id/button"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true" />
+        android:layout_alignParentTop="true"
+        android:layout_toEndOf="@+id/progressBar"
+        android:layout_toRightOf="@+id/progressBar" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -36,5 +38,27 @@
         android:layout_centerVertical="true"
         android:layout_centerHorizontal="true"
         android:layout_centerInParent="true" />
+
+    <ListView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/listView"
+        android:layout_below="@+id/progressBar"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/questionText"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignRight="@+id/button"
+        android:layout_alignEnd="@+id/button"
+        android:hint="@string/question_text_field"
+        android:inputType="text"
+        android:maxLines="1"
+        android:imeOptions="actionSend"/>
 
 </RelativeLayout>

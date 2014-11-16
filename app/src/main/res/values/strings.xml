@@ -7,5 +7,6 @@
     <string name="status_positive">I get it!</string>
     <string name="status_negative">I\'m confused!</string>
     <string name="button_text">Not anymore</string>
+    <string name="question_text_field">Submit a question here.</string>
 
 </resources>

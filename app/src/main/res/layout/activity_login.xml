@@ -37,6 +37,7 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/classCode"
                 android:layout_gravity="center_horizontal"
+                android:maxLines="1"
                 android:hint="@string/prompt_class_code" />
 
             <EditText
