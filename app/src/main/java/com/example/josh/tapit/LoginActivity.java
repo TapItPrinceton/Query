@@ -5,6 +5,7 @@ import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.LoaderManager.LoaderCallbacks;
+import android.content.Context;
 import android.content.CursorLoader;
 import android.content.Intent;
 import android.content.Loader;
@@ -19,6 +20,7 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -56,6 +58,8 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor>{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
+        final InputMethodManager imm = (InputMethodManager)getSystemService(
+                Context.INPUT_METHOD_SERVICE);
         // Set up the login form.
         mClassCodeView = (EditText) findViewById(R.id.classCode);
         mPasswordView = (EditText) findViewById(R.id.password);
@@ -64,6 +68,7 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor>{
             public boolean onEditorAction(TextView textView, int id, KeyEvent keyEvent) {
                 if (id == R.id.login || id == EditorInfo.IME_NULL) {
                     attemptLogin();
+
                     return true;
                 }
                 return false;
@@ -74,12 +79,14 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor>{
         mEmailSignInButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
+                imm.hideSoftInputFromWindow(mPasswordView.getWindowToken(), 0);
                 attemptLogin();
             }
         });
 
         mLoginFormView = findViewById(R.id.login_form);
         mProgressView = findViewById(R.id.login_progress);
+
     }
 
     /*
@@ -283,6 +290,7 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor>{
             showProgress(false);
 
             if (success) {
+
                 Intent output = new Intent();
                 output.putExtra("class", correctCode);
                 setResult(RESULT_OK, output);

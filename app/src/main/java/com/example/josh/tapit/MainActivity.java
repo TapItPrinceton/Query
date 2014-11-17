@@ -1,6 +1,7 @@
 package com.example.josh.tapit;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -12,7 +13,9 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.WindowManager;
 import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -53,7 +56,7 @@ public class MainActivity extends Activity implements GestureDetector.OnGestureL
     private ArrayList<String[]> Question_queue;
 
     //======================
-    private int mInterval = 500; // 0.5 seconds
+    private int mInterval = 1000; // 2 seconds
     //======================
 
     @Override
@@ -100,9 +103,12 @@ public class MainActivity extends Activity implements GestureDetector.OnGestureL
         queueView = (TextView) findViewById(R.id.currentQuestion);
         queueView.setText("");
 
+        final InputMethodManager imm = (InputMethodManager)getSystemService(
+                Context.INPUT_METHOD_SERVICE);
 
         // Input Question
         final EditText questionText = (EditText) findViewById(R.id.questionText);
+
         questionText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent) {
@@ -110,12 +116,16 @@ public class MainActivity extends Activity implements GestureDetector.OnGestureL
                 if (i == EditorInfo.IME_ACTION_SEND) {
                     sendQuestion(questionText.getText().toString());
                     questionText.setText("");
+                    questionText.clearFocus();
+                    imm.hideSoftInputFromWindow(questionText.getWindowToken(), 0);
                     handled = true;
                 }
+
                 return handled;
 
             }
         });
+
 
         // Swipey thing
         mDetector = new GestureDetector(this, this);
