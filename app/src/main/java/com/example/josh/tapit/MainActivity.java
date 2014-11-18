@@ -56,7 +56,7 @@ public class MainActivity extends Activity implements GestureDetector.OnGestureL
     private ArrayList<String[]> Question_queue;
 
     //======================
-    private int mInterval = 1000; // 1 seconds
+    private int mInterval = 10000; // 1 seconds
     //======================
     //looooool this is josh
 
