@@ -23,6 +23,7 @@ import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.parse.FindCallback;
 import com.parse.GetCallback;
@@ -161,6 +162,8 @@ public class MainActivity extends Activity implements GestureDetector.OnGestureL
         questions.put("question", question);
         questions.put("votes", 1);
         questions.saveInBackground();
+        Toast submitToast = Toast.makeText(this, "Your question has been submitted.", Toast.LENGTH_SHORT);
+        submitToast.show();
     }
 
     protected void buttonClicked() {
