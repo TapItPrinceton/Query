@@ -58,6 +58,7 @@ public class MainActivity extends Activity implements GestureDetector.OnGestureL
     //======================
     private int mInterval = 1000; // 1 seconds
     //======================
+    //looooool this is josh
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
