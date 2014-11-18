@@ -1,6 +1,7 @@
 package com.example.josh.tapit;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -13,6 +14,7 @@ import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -20,6 +22,7 @@ import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.parse.FindCallback;
 import com.parse.GetCallback;
@@ -100,9 +103,12 @@ public class MainActivity extends Activity implements GestureDetector.OnGestureL
         queueView = (TextView) findViewById(R.id.currentQuestion);
         queueView.setText("");
 
+        final InputMethodManager imm = (InputMethodManager)getSystemService(
+                Context.INPUT_METHOD_SERVICE);
 
         // Input Question
         final EditText questionText = (EditText) findViewById(R.id.questionText);
+
         questionText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent) {
@@ -110,12 +116,16 @@ public class MainActivity extends Activity implements GestureDetector.OnGestureL
                 if (i == EditorInfo.IME_ACTION_SEND) {
                     sendQuestion(questionText.getText().toString());
                     questionText.setText("");
+                    questionText.clearFocus();
+                    imm.hideSoftInputFromWindow(questionText.getWindowToken(), 0);
                     handled = true;
                 }
+
                 return handled;
 
             }
         });
+
 
         // Swipey thing
         mDetector = new GestureDetector(this, this);
@@ -151,6 +161,7 @@ public class MainActivity extends Activity implements GestureDetector.OnGestureL
         questions.put("question", question);
         questions.put("votes", 1);
         questions.saveInBackground();
+        Toast.makeText(this, "Your question has been submitted.", Toast.LENGTH_SHORT).show();
     }
 
     protected void buttonClicked() {
