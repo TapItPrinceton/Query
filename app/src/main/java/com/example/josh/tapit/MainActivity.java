@@ -162,8 +162,7 @@ public class MainActivity extends Activity implements GestureDetector.OnGestureL
         questions.put("question", question);
         questions.put("votes", 1);
         questions.saveInBackground();
-        Toast submitToast = Toast.makeText(this, "Your question has been submitted.", Toast.LENGTH_SHORT);
-        submitToast.show();
+        Toast.makeText(this, "Your question has been submitted.", Toast.LENGTH_SHORT).show();
     }
 
     protected void buttonClicked() {
