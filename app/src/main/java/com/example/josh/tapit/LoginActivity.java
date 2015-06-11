@@ -39,7 +39,7 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor>{
      * Authentication store containing known user names and passwords.
      */
     private static final String[] CREDENTIALS = new String[]{
-            "eco101:ebogan", "cos126:rsedgewick"
+            "eco101:ebogan", "cos126:rsedgewick", "cos226:kwayne"
     };
     /**
      * Keep track of the login task to ensure we can cancel it if requested.
